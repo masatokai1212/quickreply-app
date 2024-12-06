@@ -3,6 +3,7 @@ import { load } from "ts-dotenv";
 import middleware from './middleware';
 import { WebhookEvent, MiddlewareConfig } from './types';
 import textEventHandler from './textEventHandler';
+import bodyParser from 'body-parser';
 
 const env = load({
   CHANNEL_ACCESS_TOKEN: String,
@@ -49,6 +50,12 @@ app.post(
   async (req: Request, res: Response): Promise<void> => {
     try {
       const events: WebhookEvent[] = req.body.events;
+      if (!events) {
+        console.error('No events found in request body');
+        res.status(400).send('Bad Request');
+        return;
+      }
+
       await Promise.all(
         events.map(async (event: WebhookEvent) => {
           try {
@@ -63,14 +70,14 @@ app.post(
       );
       res.status(200).send('OK');
     } catch (error) {
-      console.error(error);
+      console.error('Error processing webhook', error);
       res.status(500).send('Internal Server Error');
     }
   }
 );
 
 app.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}/`);
+  console.log(`Server is running on http://localhost:${PORT}/`);
 });
 
 export default handler;
