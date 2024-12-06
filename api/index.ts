@@ -24,6 +24,12 @@ const middlewareConfig: MiddlewareConfig = {
 
 const app: Application = express();
 
+// JSON ボディの解析
+app.use(express.json());
+
+// URLエンコードされたボディの解析
+app.use(express.urlencoded({ extended: true }));
+
 const handler = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).send({
