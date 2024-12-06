@@ -1,5 +1,5 @@
-// src/aiAssessmentHandler.ts
-import { QuickReply } from './types';
+// api/handlers/aiAssessmentHandler.ts
+import { QuickReply } from '../types';
 import axios from 'axios';
 
 export const aiAssessmentHandler = async (replyToken: string): Promise<void> => {

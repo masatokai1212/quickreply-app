@@ -1,5 +1,5 @@
-// src/consultationHandler.ts
-import { QuickReply } from './types';
+// api/handlers/consultationHandler.ts
+import { QuickReply } from '../types';
 import axios from 'axios';
 
 export const consultationHandler = async (replyToken: string): Promise<void> => {
