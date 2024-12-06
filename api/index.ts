@@ -3,6 +3,8 @@ import { load } from "ts-dotenv";
 import middleware from './middleware';
 import { WebhookEvent, MiddlewareConfig } from './types';
 import textEventHandler from './textEventHandler';
+import { consultationHandler } from './handlers/consultationHandler';
+import { aiAssessmentHandler } from './handlers/aiAssessmentHandler';
 
 const env = load({
   CHANNEL_ACCESS_TOKEN: String,
@@ -30,6 +32,7 @@ app.use(express.json());
 // URLエンコードされたボディの解析
 app.use(express.urlencoded({ extended: true }));
 
+// ルートハンドラ
 const handler = async (req: Request, res: Response): Promise<void> => {
   try {
     res.status(200).send({
@@ -41,6 +44,7 @@ const handler = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// ルート設定
 app.get("/", handler);
 
 app.post(
@@ -75,6 +79,29 @@ app.post(
     }
   }
 );
+
+// 追加のAPIエンドポイント
+app.post("/consultation", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const replyToken = req.body.replyToken;
+    await consultationHandler(replyToken);
+    res.status(200).send('Consultation handled');
+  } catch (error) {
+    console.error('Error handling consultation', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post("/ai-assessment", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const replyToken = req.body.replyToken;
+    await aiAssessmentHandler(replyToken);
+    res.status(200).send('AI assessment handled');
+  } catch (error) {
+    console.error('Error handling AI assessment', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 app.listen(PORT, () => {
   console.error(`Server is running on http://localhost:${PORT}/`);
