@@ -49,6 +49,7 @@ app.post(
   middleware(middlewareConfig),
   async (req: Request, res: Response): Promise<void> => {
     try {
+      console.log('Request body:', req.body); // リクエ���トボディをログに出力
       const events: WebhookEvent[] = req.body.events;
       if (!events) {
         console.error('No events found in request body');
