@@ -25,10 +25,14 @@ const middlewareConfig: MiddlewareConfig = {
 const app: Application = express();
 
 const handler = async (req: Request, res: Response): Promise<void> => {
-  // あなたのロジック
-  res.status(200).send({
-    message: "success"
-  });
+  try {
+    res.status(200).send({
+      message: "success"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
 app.get("/", handler);
@@ -37,20 +41,25 @@ app.post(
   "/webhook",
   middleware(middlewareConfig),
   async (req: Request, res: Response): Promise<void> => {
-    const events: WebhookEvent[] = req.body.events;
-    await Promise.all(
-      events.map(async (event: WebhookEvent) => {
-        try {
-          await textEventHandler(event);
-        } catch (err: unknown) {
-          if (err instanceof Error) {
-            console.error(err);
+    try {
+      const events: WebhookEvent[] = req.body.events;
+      await Promise.all(
+        events.map(async (event: WebhookEvent) => {
+          try {
+            await textEventHandler(event);
+          } catch (err: unknown) {
+            if (err instanceof Error) {
+              console.error(err);
+            }
+            res.status(500).send('Internal Server Error');
           }
-          res.status(500).send('Internal Server Error');
-        }
-      })
-    );
-    res.status(200).send('OK');
+        })
+      );
+      res.status(200).send('OK');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
   }
 );
 

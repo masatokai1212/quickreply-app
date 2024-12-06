@@ -1,8 +1,27 @@
 // types.ts
 export interface WebhookEvent {
-  // WebhookEvent のプロパティを定義
+  type: string;
+  message: {
+    type: string;
+    text: string;
+  };
+  replyToken: string;
+}
+
+export interface QuickReplyItem {
+  type: string;
+  action: {
+    type: string;
+    label: string;
+    text: string;
+  };
+}
+
+export interface QuickReply {
+  items: QuickReplyItem[];
 }
 
 export interface MiddlewareConfig {
-  // MiddlewareConfig のプロパティを定義
+  property1: string;
+  property2: number;
 }

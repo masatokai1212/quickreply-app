@@ -1,4 +1,4 @@
-// middleware.ts
+// api/middleware.ts
 import { Request, Response, NextFunction } from 'express';
 import { MiddlewareConfig } from './types';
 
