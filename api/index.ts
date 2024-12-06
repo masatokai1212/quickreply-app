@@ -1,8 +1,8 @@
 import express, { Application, Request, Response } from "express";
 import { load } from "ts-dotenv";
-import middleware from './middleware'; // 適切なパスに変更してください
-import { WebhookEvent, MiddlewareConfig } from './types'; // 適切なパスに変更してください
-import textEventHandler from './textEventHandler'; // 適切なパスに変更してください
+import middleware from './middleware';
+import { WebhookEvent, MiddlewareConfig } from './types';
+import textEventHandler from './textEventHandler';
 
 const env = load({
   CHANNEL_ACCESS_TOKEN: String,
