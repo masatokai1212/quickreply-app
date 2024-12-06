@@ -20,7 +20,6 @@ export interface QuickReplyItem {
 }
 
 export interface QuickReply {
-  type: string;
   items: QuickReplyItem[];
 }
 
