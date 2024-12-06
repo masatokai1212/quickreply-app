@@ -3,7 +3,6 @@ import { load } from "ts-dotenv";
 import middleware from './middleware';
 import { WebhookEvent, MiddlewareConfig } from './types';
 import textEventHandler from './textEventHandler';
-import bodyParser from 'body-parser';
 
 const env = load({
   CHANNEL_ACCESS_TOKEN: String,
@@ -49,7 +48,7 @@ app.post(
   middleware(middlewareConfig),
   async (req: Request, res: Response): Promise<void> => {
     try {
-      console.log('Request body:', req.body); // リクエ���トボディをログに出力
+      console.error('Request body:', req.body); // リクエストボディをログに出力
       const events: WebhookEvent[] = req.body.events;
       if (!events) {
         console.error('No events found in request body');
@@ -78,7 +77,7 @@ app.post(
 );
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}/`);
+  console.error(`Server is running on http://localhost:${PORT}/`);
 });
 
 export default handler;
