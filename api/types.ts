@@ -1,4 +1,4 @@
-// types.ts
+// api/types.ts
 export interface WebhookEvent {
   type: string;
   message: {
@@ -8,13 +8,15 @@ export interface WebhookEvent {
   replyToken: string;
 }
 
+export interface QuickReplyAction {
+  type: string;
+  label: string;
+  text: string;
+}
+
 export interface QuickReplyItem {
   type: string;
-  action: {
-    type: string;
-    label: string;
-    text: string;
-  };
+  action: QuickReplyAction;
 }
 
 export interface QuickReply {
